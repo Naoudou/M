@@ -1,4 +1,38 @@
 # M
+TEXT SIMILARITY
+
+import en_core_web_sm
+from numpy import dot
+from numpy.linalg import norm
+import numpy as np
+
+nlp=en_core_web_sm.load()
+doc_list=['I love this sandwich','this is an amazing place',
+          'I feel very good about these beers',
+          'this is my best work',
+          'what an awesome view',
+          'i do not like the restaurant',
+          'i am tired of this stuff',
+          'i cant deal with this',
+          'he is my sworn enemy',
+          'my boss is horrible',
+          'i hate this sandwhich.']
+
+query=input()
+sim_scores=[]
+q_vector=nlp(query).vector
+for doc in doc_list:
+    doc_vector=nlp(doc).vector
+    cos_sim=dot(q_vector,doc_vector)/(norm(q_vector)*norm(doc_vector))
+    sim_scores.append(cos_sim)
+most_similar=doc_list[sim_scores.index(max(sim_scores))]
+print("\n Most similar:\n",most_similar)
+top_index=list(np.argsort(sim_scores)[-5:])
+top_index.reverse()
+print("\n Most similar documents")
+for i in top_index:
+    print(doc_list[i])
+    
 
 RANDOM FOREST
 
